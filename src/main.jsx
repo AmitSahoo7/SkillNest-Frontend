@@ -3,7 +3,7 @@ import AOS from 'aos';
 
 AOS.init(); // Initialize AOS
 
-export const server = "http://localhost:4000";
+export const server = "https://skillnest-backend.onrender.com";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
