@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './LectureCommentSection.css';
-import { server } from '../../main';
-import { FiMoreVertical } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "./LectureCommentSection.css";
+import { server } from "../../main";
+import { FiMoreVertical } from "react-icons/fi";
 
 const LectureCommentSection = ({ lectureId, isPaidUser, user }) => {
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -47,7 +47,7 @@ const LectureCommentSection = ({ lectureId, isPaidUser, user }) => {
         { headers: { token: localStorage.getItem("token") } }
       );
       setAllComments([res.data.comment, ...allComments]);
-      setNewComment('');
+      setNewComment("");
     } catch (error) {
       console.error("Error posting comment:", error);
     }
@@ -72,7 +72,9 @@ const LectureCommentSection = ({ lectureId, isPaidUser, user }) => {
     <div className="comment-container">
       <div className="comment-box">
         <h2 className="comment-header">
-          {allComments.length === 1 ? '1 Comment' : `${allComments.length} Comments`}
+          {allComments.length === 1
+            ? "1 Comment"
+            : `${allComments.length} Comments`}
         </h2>
 
         {isPaidUser && (
@@ -97,29 +99,38 @@ const LectureCommentSection = ({ lectureId, isPaidUser, user }) => {
             allComments.map((comment) => (
               <div key={comment._id} className="comment-block">
                 <div className="comment-header-row">
-                  <span className="comment-user">{comment.userId?.name || "User"}</span>
-
-                  {user && comment.userId && (user._id === comment.userId._id || user.role === "admin") && (
-                  <div className="menu-wrapper">
-                    <FiMoreVertical
-                      className="menu-icon"
-                      onClick={() => handleMenuToggle(comment._id)}
-                    />
-                    {activeMenu === comment._id && (
-                      <div className="dropdown-menu">
-                        <button
-                          onClick={() => {
-                            if (window.confirm("Are you sure you want to delete this comment?")) {
-                              handleDeleteComment(comment._id);
-                            }
-                          }}
-                        >
-                          Delete
-                        </button>
+                  <span className="comment-user">
+                    {comment.userId?.name || "Student"}
+                  </span>{" "}
+                  {/* Changed from 'User' to 'Student' for consistency */}
+                  {user &&
+                    comment.userId &&
+                    (user._id === comment.userId._id ||
+                      user.role === "admin") && (
+                      <div className="menu-wrapper">
+                        <FiMoreVertical
+                          className="menu-icon"
+                          onClick={() => handleMenuToggle(comment._id)}
+                        />
+                        {activeMenu === comment._id && (
+                          <div className="dropdown-menu">
+                            <button
+                              onClick={() => {
+                                if (
+                                  window.confirm(
+                                    "Are you sure you want to delete this comment?"
+                                  )
+                                ) {
+                                  handleDeleteComment(comment._id);
+                                }
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
-                )}
                 </div>
                 <p className="comment-text">{comment.text}</p>
                 <span className="comment-date">
